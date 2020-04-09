@@ -18,5 +18,8 @@ if(isset($_SESSION['movies'])){
 
 }
 else{
-    echo 'error';
+	echo json_encode(ini_get('register_globals'));
+	echo json_encode($_COOKIE);
+	echo json_encode($_SESSION);
+    echo 'error1';
 }

@@ -1,5 +1,11 @@
 <?php
 
+session_start();
+
+ini_set('error_reporting', E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+
 $mysqli = new mysqli('remotemysql.com', 'AmLB63D4F9', 'ARsY8WGMUO', 'AmLB63D4F9');
 
 $out = '<div class="tab-pane active" id="rec">
@@ -9,11 +15,17 @@ $out = '<div class="tab-pane active" id="rec">
   <table class="table table-striped">
     <thead>
       <tr>';
-      $content = file_get_contents("http://104.154.69.181/recommendation/getRecommendations.php");
+      $content = file_get_contents("http://104.154.69.181/recommendation/getRecommendations.php?movies=" . json_encode($_SESSION['movies']));
+
+
             $pairs = explode(' ', $content);
             $names = array();
             foreach ($pairs as $value) {
                 $arr = explode(':', $value);
+
+		if (count($arr) != 2) {
+			continue;
+		}
                 $name = $arr[0];
                 $mid = $arr[1];
                 $keys = array_keys($names);
